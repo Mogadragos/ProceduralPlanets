@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class ColorGenerator
 {
+    // Pour le shader
     public Material material { get; private set; }
     Texture2D texture;
+    const int textureResolution = 50;
+
+    // Couches de couleurs aléatoires
     Gradient gradient;
     GradientColorKey[] colorKey;
     GradientAlphaKey[] alphaKey;
-    const int textureResolution = 50;
+
+    // Teinte générale (couleur plus froide / plus chaude)
+    Color tint;
+    const float tintPercent = .3f;
 
     public ColorGenerator()
     {
@@ -23,15 +30,15 @@ public class ColorGenerator
         alphaKey[0].time = 0.0f;
         alphaKey[1].alpha = 1.0f;
         alphaKey[1].time = 1.0f;
-        ResetGradient();
+        RandomColor();
     }
 
-    public void UpdateSettings()
+    public void UpdateSettings(bool random)
     {
-        ResetGradient();
+        if(random) RandomColor();
     }
 
-    void ResetGradient()
+    void RandomColor()
     {
         // Populate the color keys at the relative time 0 and 1 (0 and 100%)
         colorKey = new GradientColorKey[7];
@@ -51,6 +58,8 @@ public class ColorGenerator
         colorKey[6].time = 1.0f;
 
         gradient.SetKeys(colorKey, alphaKey);
+
+        tint = Random.ColorHSV(); // TODO: + chaude ou + froide selon distance au soleil
     }
 
     public void UpdateElevation(MinMax elevationMinMax)
@@ -63,7 +72,7 @@ public class ColorGenerator
         Color[] colors = new Color[textureResolution];
         for(int i = 0; i < textureResolution; i++)
         {
-            colors[i] = gradient.Evaluate(i / (textureResolution - 1f));
+            colors[i] = gradient.Evaluate(i / (textureResolution - 1f)) * (1 - tintPercent) + tint * tintPercent;
         }
         texture.SetPixels(colors);
         texture.Apply();
