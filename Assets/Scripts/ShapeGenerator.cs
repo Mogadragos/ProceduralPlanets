@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class ShapeGenerator
 {
-    ShapeSettings shapeSettings;
+    float radius;
     INoiseFilter[] noiseFilters;
     public MinMax elevationMinMax;
 
-    public void UpdateSettings(ShapeSettings shapeSettings)
+    public ShapeGenerator(float radius)
     {
-        this.shapeSettings = shapeSettings;
-        noiseFilters = new INoiseFilter[shapeSettings.noiseLayers.Length];
-        for(int i = 0; i < noiseFilters.Length; i++)
-        {
-            noiseFilters[i] = NoiseFilterFactory.CreateNoiseFilter(shapeSettings.noiseLayers[i].noiseSettings);
-        }
+        this.radius = radius;
+
+        noiseFilters = new INoiseFilter[2];
+        noiseFilters[0] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.SimpleNoiseSettings(.07f, 4, 1.15f, 2.2f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), .98f)));
+        noiseFilters[1] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.RigidNoiseSettings(1.42f, 4, 1.59f, 3.3f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), .37f, .78f)));
+
         elevationMinMax = new MinMax();
+    }
+
+    public void UpdateSettings(float radius)
+    {
+        this.radius = radius;
+        noiseFilters[0] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.SimpleNoiseSettings(.07f, 4, 1.15f, 2.2f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), .98f)));
+        noiseFilters[1] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.RigidNoiseSettings(1.42f, 4, 1.59f, 3.3f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), .37f, .78f)));
+        elevationMinMax.Reset();
     }
 
     public Vector3 CalculatePointOnPlanet(Vector3 pointOnUnitSphere)
@@ -25,21 +33,15 @@ public class ShapeGenerator
         if(noiseFilters.Length > 0)
         {
             firstLayerValue = noiseFilters[0].Evaluate(pointOnUnitSphere);
-            if(shapeSettings.noiseLayers[0].enabled)
-            {
-                elevation = firstLayerValue;
-            }
+            elevation = firstLayerValue;
         }
 
         for(int i = 1; i < noiseFilters.Length; i++)
         {
-            if(shapeSettings.noiseLayers[i].enabled)
-            {
-                float mask = (shapeSettings.noiseLayers[i].useFirstLayerAsMask) ? firstLayerValue : 1;
-                elevation += noiseFilters[i].Evaluate(pointOnUnitSphere) * mask;
-            }
+            float mask = firstLayerValue;
+            elevation += noiseFilters[i].Evaluate(pointOnUnitSphere) * mask;
         }
-        elevation = (1 + elevation) * shapeSettings.planetRadius;
+        elevation = (1 + elevation) * radius;
         elevationMinMax.AddValue(elevation);
         return elevation * pointOnUnitSphere;
     }

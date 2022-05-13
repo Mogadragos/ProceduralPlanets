@@ -9,6 +9,11 @@ public class MinMax
 
     public MinMax()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
         Min = float.MaxValue;
         Max = float.MinValue;
     }

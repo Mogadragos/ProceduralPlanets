@@ -4,22 +4,58 @@ using UnityEngine;
 
 public class ColorGenerator
 {
-    ColorSettings colorSettings;
+    public Material material { get; private set; }
     Texture2D texture;
+    Gradient gradient;
+    GradientColorKey[] colorKey;
+    GradientAlphaKey[] alphaKey;
     const int textureResolution = 50;
 
-    public void UpdateSettings(ColorSettings colorSettings)
+    public ColorGenerator()
     {
-        this.colorSettings = colorSettings;
-        if(texture == null)
-        {
-            texture = new Texture2D(textureResolution, 1);
-        }
+        material = new Material(Shader.Find("Shader Graphs/Planet"));
+        texture = new Texture2D(textureResolution, 1);
+
+        gradient = new Gradient();
+        // Populate the alpha  keys at relative time 0 and 1  (0 and 100%)
+        alphaKey = new GradientAlphaKey[2];
+        alphaKey[0].alpha = 1.0f;
+        alphaKey[0].time = 0.0f;
+        alphaKey[1].alpha = 1.0f;
+        alphaKey[1].time = 1.0f;
+        ResetGradient();
+    }
+
+    public void UpdateSettings()
+    {
+        ResetGradient();
+    }
+
+    void ResetGradient()
+    {
+        // Populate the color keys at the relative time 0 and 1 (0 and 100%)
+        colorKey = new GradientColorKey[7];
+        colorKey[0].color = Random.ColorHSV(); // new Color32(0, 10, 154, 255);
+        colorKey[0].time = 0.0f;
+        colorKey[1].color = Random.ColorHSV(); // new Color32(158, 121, 8, 255);
+        colorKey[1].time = .041f;
+        colorKey[2].color = Random.ColorHSV(); // new Color32(16, 152, 0, 255);
+        colorKey[2].time = .126f;
+        colorKey[3].color = Random.ColorHSV(); // new Color32(10, 99, 0, 255);
+        colorKey[3].time = .226f;
+        colorKey[4].color = Random.ColorHSV(); // new Color32(118, 51, 0, 255);
+        colorKey[4].time = .441f;
+        colorKey[5].color = Random.ColorHSV(); // new Color32(79, 35, 0, 255);
+        colorKey[5].time = .685f;
+        colorKey[6].color = Random.ColorHSV(); // Color.white;
+        colorKey[6].time = 1.0f;
+
+        gradient.SetKeys(colorKey, alphaKey);
     }
 
     public void UpdateElevation(MinMax elevationMinMax)
     {
-        colorSettings.planetMaterial.SetVector("_elevationMinMax", new Vector4(elevationMinMax.Min, elevationMinMax.Max));
+        material.SetVector("_elevationMinMax", new Vector4(elevationMinMax.Min, elevationMinMax.Max));
     }
 
     public void UpdateColors()
@@ -27,10 +63,10 @@ public class ColorGenerator
         Color[] colors = new Color[textureResolution];
         for(int i = 0; i < textureResolution; i++)
         {
-            colors[i] = colorSettings.gradient.Evaluate(i / (textureResolution - 1f));
+            colors[i] = gradient.Evaluate(i / (textureResolution - 1f));
         }
         texture.SetPixels(colors);
         texture.Apply();
-        colorSettings.planetMaterial.SetTexture("_texture", texture);
+        material.SetTexture("_texture", texture);
     }
 }
