@@ -43,7 +43,7 @@ public class Planet : MonoBehaviour
 
         transform.parent.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 
-        degreesPerSecond = Random.Range(5, 30);
+        degreesPerSecond = Random.Range(1f, 15f);
 
         shapeGenerator = new ShapeGenerator();
 
