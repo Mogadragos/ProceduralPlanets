@@ -5,7 +5,7 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [Range(2, 256)]
-    public int resolution = 10;
+    public int resolution = 256;
 
     public float planetRadius = 1;
 
@@ -45,7 +45,7 @@ public class Planet : MonoBehaviour
 
         transform.parent.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 
-        degreesPerSecond = Random.Range(5, 50);
+        degreesPerSecond = Random.Range(5, 30);
 
         shapeGenerator = new ShapeGenerator(planetRadius);
 
