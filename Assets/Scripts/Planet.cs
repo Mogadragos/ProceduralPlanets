@@ -7,8 +7,6 @@ public class Planet : MonoBehaviour
     [Range(2, 256)]
     public int resolution = 256;
 
-    public float planetRadius = 1;
-
     ShapeGenerator shapeGenerator;
     ColorGenerator colorGenerator;
 
@@ -47,7 +45,7 @@ public class Planet : MonoBehaviour
 
         degreesPerSecond = Random.Range(5, 30);
 
-        shapeGenerator = new ShapeGenerator(planetRadius);
+        shapeGenerator = new ShapeGenerator();
 
         colorGenerator = new ColorGenerator();
 

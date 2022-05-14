@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class ShapeGenerator
 {
-    float radius;
+    float radius = 1;
     INoiseFilter[] noiseFilters;
     public MinMax elevationMinMax;
 
-    public ShapeGenerator(float radius)
+    public ShapeGenerator()
     {
-        this.radius = radius;
-
         noiseFilters = new INoiseFilter[2];
         RandomShape();
 
@@ -18,6 +16,8 @@ public class ShapeGenerator
 
     void RandomShape()
     {
+        radius = Random.Range(.3f, 3f);
+
         // Continents
         noiseFilters[0] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.SimpleNoiseSettings(.07f, 4, 1.15f, 2.2f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), Random.Range(.5f, 1.5f))));
         // Reliefs
