@@ -15,11 +15,13 @@ public class Planet : MonoBehaviour
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
-    float degreesPerSecond;
+    public float degreesPerSecond;
+
+    public bool generateOnAwake = true;
 
     private void Awake()
     {
-        GeneratePlanet();
+        if(generateOnAwake) GeneratePlanet();
     }
 
     private void Update() 
@@ -36,6 +38,11 @@ public class Planet : MonoBehaviour
 
     void Initialise()
     {
+        while (transform.childCount != 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
         transform.parent.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 
         degreesPerSecond = Random.Range(5, 50);

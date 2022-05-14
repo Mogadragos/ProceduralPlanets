@@ -43,8 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a947a00fa9a5b2b4bad1f819cb37d314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 128
+  resolution: 256
   planetRadius: 1
+  degreesPerSecond: 20
+  generateOnAwake: 1
 --- !u!1 &7462911765406715036
 GameObject:
   m_ObjectHideFlags: 0
