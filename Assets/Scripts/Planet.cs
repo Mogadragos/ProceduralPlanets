@@ -17,9 +17,12 @@ public class Planet : MonoBehaviour
 
     public bool generateOnAwake = true;
 
+    const float MAX_DISTANCE_TO_SUN = 300f;
+    float relativeDistanceToSun;
+
     private void Awake()
     {
-        if(generateOnAwake) GeneratePlanet();
+        if (generateOnAwake) GeneratePlanet();
     }
 
     private void Update() 
@@ -29,6 +32,8 @@ public class Planet : MonoBehaviour
 
     public void GeneratePlanet()
     {
+        relativeDistanceToSun = 150f / MAX_DISTANCE_TO_SUN; // TODO: calculer
+
         Initialise();
         GenerateMesh();
         GenerateColors();
@@ -45,9 +50,9 @@ public class Planet : MonoBehaviour
 
         degreesPerSecond = Random.Range(1f, 15f);
 
-        shapeGenerator = new ShapeGenerator();
+        shapeGenerator = new ShapeGenerator(relativeDistanceToSun);
 
-        colorGenerator = new ColorGenerator();
+        colorGenerator = new ColorGenerator(relativeDistanceToSun);
 
         meshFilters = new MeshFilter[6];
 

@@ -16,9 +16,9 @@ public class ColorGenerator
 
     // Teinte générale (couleur plus froide / plus chaude)
     Color tint;
-    const float tintPercent = .3f;
+    float tintPercent = .2f;
 
-    public ColorGenerator()
+    public ColorGenerator(float relativeDistanceToSun)
     {
         material = new Material(Shader.Find("Shader Graphs/Planet"));
         texture = new Texture2D(textureResolution, 1);
@@ -31,6 +31,17 @@ public class ColorGenerator
         alphaKey[1].alpha = 1.0f;
         alphaKey[1].time = 1.0f;
         RandomColor();
+
+        tint = Color.Lerp(new Color32(187, 11, 11, 255), new Color32(192, 223, 239, 255), Mathf.Min(1f, relativeDistanceToSun));
+
+        if(relativeDistanceToSun > .5f)
+        {
+            tintPercent = Mathf.Lerp(0, .3f, (relativeDistanceToSun - .5f) * 2);
+        }
+        else
+        {
+            tintPercent = Mathf.Lerp(.3f, 0, relativeDistanceToSun * 2);
+        }
     }
 
     void RandomColor()
@@ -53,8 +64,6 @@ public class ColorGenerator
         colorKey[6].time = 1.0f;
 
         gradient.SetKeys(colorKey, alphaKey);
-
-        tint = Random.ColorHSV(); // TODO: + chaude ou + froide selon distance au soleil
     }
 
     public void UpdateElevation(MinMax elevationMinMax)

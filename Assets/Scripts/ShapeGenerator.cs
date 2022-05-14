@@ -6,22 +6,30 @@ public class ShapeGenerator
     INoiseFilter[] noiseFilters;
     public MinMax elevationMinMax;
 
-    public ShapeGenerator()
+    public ShapeGenerator(float relativeDistanceToSun)
     {
         noiseFilters = new INoiseFilter[2];
-        RandomShape();
+        RandomShape(relativeDistanceToSun);
 
         elevationMinMax = new MinMax();
     }
 
-    void RandomShape()
+    void RandomShape(float relativeDistanceToSun)
     {
         radius = Random.Range(.3f, 3f);
 
+        float continentMinValue;
+
+        if (relativeDistanceToSun < .2f) continentMinValue = 0f;
+        else if (relativeDistanceToSun < .5f)
+        {
+            continentMinValue = Random.Range(.3f, Mathf.Lerp(.5f, 1.5f, relativeDistanceToSun));
+        } else continentMinValue = Random.Range(.5f, 1.5f);
+
         // Continents
-        noiseFilters[0] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.SimpleNoiseSettings(.07f, 4, 1.15f, 2.2f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), Random.Range(.5f, 1.5f))));
+        noiseFilters[0] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.SimpleNoiseSettings(.07f, 4, 1.15f, 2.2f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), continentMinValue)));
         // Reliefs
-        noiseFilters[1] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.RigidNoiseSettings(1.42f, 4, 1.59f, 3.3f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), Random.value, Random.Range(0f, 2f))));
+        noiseFilters[1] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.RigidNoiseSettings(Random.Range(.8f, 1.6f), 4, 1.59f, 3.3f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), Random.value, Random.Range(0f, 2f))));
     }
 
     public Vector3 CalculatePointOnPlanet(Vector3 pointOnUnitSphere)
