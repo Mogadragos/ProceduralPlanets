@@ -33,11 +33,6 @@ public class ColorGenerator
         RandomColor();
     }
 
-    public void UpdateSettings(bool random)
-    {
-        if(random) RandomColor();
-    }
-
     void RandomColor()
     {
         // Populate the color keys at the relative time 0 and 1 (0 and 100%)

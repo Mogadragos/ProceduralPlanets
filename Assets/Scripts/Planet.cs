@@ -12,71 +12,60 @@ public class Planet : MonoBehaviour
     ShapeGenerator shapeGenerator;
     ColorGenerator colorGenerator;
 
-    [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
-    void Initialise(bool random = false)
+    float degreesPerSecond;
+
+    private void Awake()
     {
-        if (shapeGenerator == null)
-        {
-            shapeGenerator = new ShapeGenerator(planetRadius);
-        }
-        else
-        {
-            shapeGenerator.UpdateSettings(planetRadius, random);
-        }
+        GeneratePlanet();
+    }
 
-        if (colorGenerator == null)
-        {
-            colorGenerator = new ColorGenerator();
-        } else
-        {
-            colorGenerator.UpdateSettings(random);
-        }
+    private void Update() 
+    {
+        transform.Rotate(new Vector3(0, degreesPerSecond, 0) * Time.deltaTime);
+    }
 
-        if (meshFilters == null || meshFilters.Length == 0)
-        {
-            meshFilters = new MeshFilter[6];
-        }
+    public void GeneratePlanet()
+    {
+        Initialise();
+        GenerateMesh();
+        GenerateColors();
+    }
+
+    void Initialise()
+    {
+        transform.parent.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+
+        degreesPerSecond = Random.Range(5, 50);
+
+        shapeGenerator = new ShapeGenerator(planetRadius);
+
+        colorGenerator = new ColorGenerator();
+
+        meshFilters = new MeshFilter[6];
+
         terrainFaces = new TerrainFace[6];
 
         Vector3[] directions = { Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
 
         for (int i = 0; i < 6; i++)
         {
-            if(meshFilters[i] == null)
-            {
-                GameObject meshObj = new GameObject("mesh");
-                meshObj.transform.parent = transform;
+            GameObject meshObj = new GameObject("mesh");
+            meshObj.transform.parent = transform;
+            meshObj.transform.localPosition = Vector3.zero;
+            meshObj.transform.localRotation = Quaternion.identity;
+            meshObj.transform.localScale = Vector3.one;
 
-                meshObj.AddComponent<MeshRenderer>();
-                meshFilters[i] = meshObj.AddComponent<MeshFilter>();
-                meshFilters[i].sharedMesh = new Mesh();
-            }
+            meshObj.AddComponent<MeshRenderer>();
+            meshFilters[i] = meshObj.AddComponent<MeshFilter>();
+            meshFilters[i].sharedMesh = new Mesh();
+
             meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = colorGenerator.material;
 
             terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
         }
-    }
-
-    public void GeneratePlanet(bool random = false)
-    {
-        Initialise(random);
-        GenerateMesh();
-        GenerateColors();
-    }
-
-    public void OnShapeSettingsUpdated()
-    {
-        Initialise();
-        GenerateMesh();
-    }
-
-    public void OnColorSettingsUpdated()
-    {
-        Initialise();
-        GenerateColors();
     }
 
     void GenerateMesh()

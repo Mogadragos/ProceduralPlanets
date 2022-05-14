@@ -16,13 +16,6 @@ public class ShapeGenerator
         elevationMinMax = new MinMax();
     }
 
-    public void UpdateSettings(float radius, bool random)
-    {
-        this.radius = radius;
-        if (random) RandomShape();
-        elevationMinMax.Reset();
-    }
-
     void RandomShape()
     {
         // Continents
