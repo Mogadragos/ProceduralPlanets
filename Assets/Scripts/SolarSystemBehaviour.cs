@@ -6,12 +6,10 @@ public class SolarSystemBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public List<Transform> Planets;
-    List<float> RevolutionTimes = new List<float>();
-
+    public float RevolutionTime;
     void Start()
     {
-                
+        
     }
 
     // Update is called once per frame
