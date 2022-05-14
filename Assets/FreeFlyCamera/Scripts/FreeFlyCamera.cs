@@ -39,7 +39,7 @@ public class FreeFlyCamera : MonoBehaviour
     [Space]
 
     [SerializeField]
-    [Tooltip("Camera movement by 'W','A','S','D','Q','E' keys is active")]
+    [Tooltip("Camera movement when moving keys is active")]
     private bool _enableMovement = true;
 
     [SerializeField]
@@ -55,12 +55,28 @@ public class FreeFlyCamera : MonoBehaviour
     private KeyCode _boostSpeed = KeyCode.LeftShift;
 
     [SerializeField]
+    [Tooltip("Move formard")]
+    private KeyCode _moveForward = KeyCode.Z;
+
+    [SerializeField]
+    [Tooltip("Move back")]
+    private KeyCode _moveBack = KeyCode.S;
+
+    [SerializeField]
+    [Tooltip("Move left")]
+    private KeyCode _moveLeft = KeyCode.Q;
+
+    [SerializeField]
+    [Tooltip("Move right")]
+    private KeyCode _moveRight = KeyCode.D;
+
+    [SerializeField]
     [Tooltip("Move up")]
     private KeyCode _moveUp = KeyCode.E;
 
     [SerializeField]
     [Tooltip("Move down")]
-    private KeyCode _moveDown = KeyCode.Q;
+    private KeyCode _moveDown = KeyCode.A;
 
     [Space]
 
@@ -167,16 +183,16 @@ public class FreeFlyCamera : MonoBehaviour
             if (Input.GetKey(_boostSpeed))
                 currentSpeed = _boostedSpeed;
 
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(_moveForward))
                 deltaPosition += transform.forward;
 
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(_moveBack))
                 deltaPosition -= transform.forward;
 
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(_moveLeft))
                 deltaPosition -= transform.right;
 
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(_moveRight))
                 deltaPosition += transform.right;
 
             if (Input.GetKey(_moveUp))
