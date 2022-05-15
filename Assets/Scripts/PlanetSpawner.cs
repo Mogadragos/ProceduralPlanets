@@ -18,13 +18,14 @@ public class PlanetSpawner : MonoBehaviour
         for (int i = 0; i < nbPlanets; i++)
         {
             Transform planetContainer = Instantiate(prefab).transform.GetChild(0);
-
+            //  placement random des planetes sur un cercle
             float theta = 2 * Mathf.PI * Random.value;
             float distance = Random.Range(minDist, minDist + 8f);
             minDist = distance + 5f;
 
             planetContainer.transform.localPosition = new Vector3(distance * Mathf.Cos(theta), 0f, distance * Mathf.Sin(theta));
 
+            //génération de la planète
             planetContainer.GetChild(0).GetComponent<Planet>().GeneratePlanet(distance, Mathf.Min(1f, distance / MAX_ENERGY_DISTANCE));
         }
     }

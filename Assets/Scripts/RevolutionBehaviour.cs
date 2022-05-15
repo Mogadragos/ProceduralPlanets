@@ -15,6 +15,7 @@ public class RevolutionBehaviour : MonoBehaviour
         childInitialRotation = new Vector3(Random.Range(-45f, 45f), 0, Random.Range(-45f, 45f));
         child.eulerAngles = childInitialRotation;
 
+        //vitese de révolution aléatoire
         degreesPerSecond = (Random.Range(0, 2) * 2 - 1) * Random.Range(0.5f, 5f);
     }
 
