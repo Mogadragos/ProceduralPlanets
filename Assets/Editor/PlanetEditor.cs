@@ -17,7 +17,7 @@ public class PlanetEditor : Editor
 
         if (GUILayout.Button("Generate Planet (for testing only)"))
         {
-            planet.GeneratePlanet(planet.relativeDistanceToSun);
+            planet.GeneratePlanet(0f, planet.relativeDistanceToSun);
         }
     }
 

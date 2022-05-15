@@ -20,12 +20,12 @@ public class PlanetSpawner : MonoBehaviour
             Transform planetContainer = Instantiate(prefab).transform.GetChild(0);
 
             float theta = 2 * Mathf.PI * Random.value;
-            float distance = Random.Range(minDist, minDist + 5f);
+            float distance = Random.Range(minDist, minDist + 8f);
             minDist = distance + 5f;
 
             planetContainer.transform.localPosition = new Vector3(distance * Mathf.Cos(theta), 0f, distance * Mathf.Sin(theta));
 
-            planetContainer.GetChild(0).GetComponent<Planet>().GeneratePlanet(Mathf.Min(1f, distance / MAX_ENERGY_DISTANCE));
+            planetContainer.GetChild(0).GetComponent<Planet>().GeneratePlanet(distance, Mathf.Min(1f, distance / MAX_ENERGY_DISTANCE));
         }
     }
 

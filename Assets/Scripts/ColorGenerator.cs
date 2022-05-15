@@ -40,7 +40,7 @@ public class ColorGenerator
         }
         else
         {
-            tintPercent = Mathf.Lerp(.3f, 0, relativeDistanceToSun * 2);
+            tintPercent = Mathf.Lerp(.35f, 0, relativeDistanceToSun * 2);
         }
     }
 

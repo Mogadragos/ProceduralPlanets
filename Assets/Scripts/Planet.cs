@@ -18,13 +18,16 @@ public class Planet : MonoBehaviour
     [Range(0f, 1f)]
     public float relativeDistanceToSun = .5f;
 
+    public DrawCircle drawCircle;
+
     private void Update() 
     {
         transform.Rotate(new Vector3(0, degreesPerSecond, 0) * Time.deltaTime);
     }
 
-    public void GeneratePlanet(float relativeDistanceToSun)
+    public void GeneratePlanet(float distanceToSun, float relativeDistanceToSun)
     {
+        drawCircle.Draw(distanceToSun);
         this.relativeDistanceToSun = relativeDistanceToSun;
 
         Initialise();
@@ -38,8 +41,6 @@ public class Planet : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
-
-        transform.parent.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 
         degreesPerSecond = Random.Range(1f, 15f);
 
