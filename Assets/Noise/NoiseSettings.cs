@@ -1,14 +1,20 @@
 using UnityEngine;
 
+// Gestionnaire des paramètres du bruit
 [System.Serializable]
 public class NoiseSettings
 {
+    // Type : Simple (continents) ; Rigid (reliefs)
     public enum FilterType { Simple, Rigid };
     public FilterType filterType;
 
+    // Paramètres en cas de filtre Simple
     public SimpleNoiseSettings simpleNoiseSettings;
+
+    // Paramètres en cas de filtre Rigid
     public RigidNoiseSettings rigidNoiseSettings;
 
+    // On crée les paramètres correspondant au type du filtre
     public NoiseSettings(FilterType filterType)
     {
         this.filterType = filterType;
@@ -72,6 +78,6 @@ public class NoiseSettings
             this.weightMultiplier = weightMultiplier;
         }
 
-        public RigidNoiseSettings() { }
+        public RigidNoiseSettings() {}
     }
 }

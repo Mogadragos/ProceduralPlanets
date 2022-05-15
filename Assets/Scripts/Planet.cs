@@ -1,30 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Générateur et gestionnaire d'une planète
 public class Planet : MonoBehaviour
 {
+    // Résolution
     [Range(2, 256)]
     public int resolution = 256;
 
+    // Gestionnaires de formes et de couleurs
     ShapeGenerator shapeGenerator;
     ColorGenerator colorGenerator;
 
+    // MeshFilters et Gestionnaires de chaque face
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
+    // Vitesse de rotation
     public float degreesPerSecond;
 
+    // Distance au soleil relative
     [Range(0f, 1f)]
     public float relativeDistanceToSun = .5f;
 
+    // Gestionnaire de cercles
     public DrawCircle drawCircle;
 
+    // La planète tourne sur elle-même
     private void Update() 
     {
         transform.Rotate(new Vector3(0, degreesPerSecond, 0) * Time.deltaTime);
     }
 
+    // Dessine le cercle et génère la planète
     public void GeneratePlanet(float distanceToSun, float relativeDistanceToSun)
     {
         drawCircle.Draw(distanceToSun);
@@ -35,6 +42,7 @@ public class Planet : MonoBehaviour
         GenerateColors();
     }
 
+    // Prépare les générateurs et les Mesh
     void Initialise()
     {
         while (transform.childCount != 0)
@@ -72,6 +80,7 @@ public class Planet : MonoBehaviour
         }
     }
 
+    // Génère les Mesh
     void GenerateMesh()
     {
         for(int i = 0; i < 6; i++)
@@ -82,6 +91,7 @@ public class Planet : MonoBehaviour
         colorGenerator.UpdateElevation(shapeGenerator.elevationMinMax);
     }
 
+    // Génère les couleurs
     void GenerateColors()
     {
         colorGenerator.UpdateColors();

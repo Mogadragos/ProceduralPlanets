@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+// Stockage du maximum et minimum de valeurs fournies
 public class MinMax
 {
     public float Min { get; private set; }

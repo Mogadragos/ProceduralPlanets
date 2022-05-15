@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+// Editeur personnalisé permettant l'ajout du bouton de génération de planète (voir Scène "ExamplePlanet")
 [CustomEditor(typeof(Planet))]
 public class PlanetEditor : Editor
 {

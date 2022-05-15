@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Filtre de bruit Simple : Continents
 public class SimpleNoiseFilter : INoiseFilter
 {
     NoiseSettings.SimpleNoiseSettings noiseSettings;

@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Dessin du cercle (inspiré de https://www.codinblack.com/how-to-draw-lines-circles-or-anything-else-using-linerenderer/)
 public class DrawCircle : MonoBehaviour
 {
-    LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
     public int vertexNumber = 50;
-
-    private void Awake()
-    {
-        lineRenderer = GetComponent<LineRenderer>();
-    }
 
     public void Draw(float radius)
     {

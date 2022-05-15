@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Filtre de bruit Rigid : Reliefs
 public class RigidNoiseFilter : INoiseFilter
 {
     NoiseSettings.RigidNoiseSettings noiseSettings;
