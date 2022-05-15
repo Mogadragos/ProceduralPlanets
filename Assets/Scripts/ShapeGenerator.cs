@@ -1,9 +1,15 @@
 using UnityEngine;
 
+// Gestionnaire des formes de la planète
 public class ShapeGenerator
 {
+    // Rayon
     float radius = 1;
+
+    // Bruits
     INoiseFilter[] noiseFilters;
+
+    // Elevation
     public MinMax elevationMinMax;
 
     public ShapeGenerator(float relativeDistanceToSun)
@@ -18,9 +24,10 @@ public class ShapeGenerator
     {
         radius = Random.Range(.3f, 4f);
 
+        // Plus on est proche du soleil, plus la planète est rocheuse
         float continentMinValue;
 
-        if (relativeDistanceToSun < .2f) continentMinValue = 0f;
+        if (relativeDistanceToSun < .3f) continentMinValue = 0f;
         else if (relativeDistanceToSun < .5f)
         {
             continentMinValue = Random.Range(.3f, Mathf.Lerp(.5f, 1.5f, relativeDistanceToSun));
@@ -32,16 +39,11 @@ public class ShapeGenerator
         noiseFilters[1] = NoiseFilterFactory.CreateNoiseFilter(new NoiseSettings(new NoiseSettings.RigidNoiseSettings(Random.Range(.8f, 1.6f), 4, 1.59f, 3.3f, .5f, new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1), Random.value, Random.Range(0f, 2f))));
     }
 
+    // Calcul de l'élévation en fonction du bruit
     public Vector3 CalculatePointOnPlanet(Vector3 pointOnUnitSphere)
     {
-        float firstLayerValue = 0;
-        float elevation = 0;
-
-        if(noiseFilters.Length > 0)
-        {
-            firstLayerValue = noiseFilters[0].Evaluate(pointOnUnitSphere);
-            elevation = firstLayerValue;
-        }
+        float firstLayerValue = noiseFilters[0].Evaluate(pointOnUnitSphere);
+        float elevation = firstLayerValue;
 
         for(int i = 1; i < noiseFilters.Length; i++)
         {

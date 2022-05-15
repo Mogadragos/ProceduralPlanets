@@ -634,9 +634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b14b79b2c3ac92b43bcef143a4995fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_ENERGY_DISTANCE: 50
+  MAX_ENERGY_DISTANCE: 60
   MinPlanets: 5
-  MaxPlanets: 10
+  MaxPlanets: 8
   prefab: {fileID: 886891558885501735, guid: a4060ad3fd28af346b478df1cd1b18da, type: 3}
 --- !u!4 &2013608110
 Transform:

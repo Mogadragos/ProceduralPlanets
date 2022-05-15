@@ -14,7 +14,7 @@ public class PlanetSpawner : MonoBehaviour
     {
         int nbPlanets = Random.Range(MinPlanets, MaxPlanets);
 
-        float minDist = 15f;
+        float minDist = 10f;
         for (int i = 0; i < nbPlanets; i++)
         {
             Transform planetContainer = Instantiate(prefab).transform.GetChild(0);
