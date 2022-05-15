@@ -16,7 +16,7 @@ public class ShapeGenerator
 
     void RandomShape(float relativeDistanceToSun)
     {
-        radius = Random.Range(.3f, 3f);
+        radius = Random.Range(.3f, 4f);
 
         float continentMinValue;
 

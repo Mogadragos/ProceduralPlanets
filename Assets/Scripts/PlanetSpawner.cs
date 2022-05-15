@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class PlanetSpawner : MonoBehaviour
 {
+    public float MAX_ENERGY_DISTANCE = 50f;
+
     public int MinPlanets;
     public int MaxPlanets;
     public GameObject prefab;
     // Start is called before the first frame update
     void Start()
     {
-        int a = Random.Range(MinPlanets, MaxPlanets);
-        for (int i = 0; i < a; i++)
+        int nbPlanets = Random.Range(MinPlanets, MaxPlanets);
+
+        float minDist = 15f;
+        for (int i = 0; i < nbPlanets; i++)
         {
-            Instantiate(prefab);
+            Transform planetContainer = Instantiate(prefab).transform.GetChild(0);
+
+            float theta = 2 * Mathf.PI * Random.value;
+            float distance = Random.Range(minDist, minDist + 5f);
+            minDist = distance + 5f;
+
+            planetContainer.transform.localPosition = new Vector3(distance * Mathf.Cos(theta), 0f, distance * Mathf.Sin(theta));
+
+            planetContainer.GetChild(0).GetComponent<Planet>().GeneratePlanet(Mathf.Min(1f, distance / MAX_ENERGY_DISTANCE));
         }
     }
 

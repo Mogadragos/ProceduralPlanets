@@ -32,7 +32,7 @@ public class ColorGenerator
         alphaKey[1].time = 1.0f;
         RandomColor();
 
-        tint = Color.Lerp(new Color32(187, 11, 11, 255), new Color32(192, 223, 239, 255), Mathf.Min(1f, relativeDistanceToSun));
+        tint = Color.Lerp(new Color32(187, 11, 11, 255), new Color32(192, 223, 239, 255), relativeDistanceToSun);
 
         if(relativeDistanceToSun > .5f)
         {

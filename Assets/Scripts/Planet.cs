@@ -15,24 +15,17 @@ public class Planet : MonoBehaviour
 
     public float degreesPerSecond;
 
-    public bool generateOnAwake = true;
-
-    const float MAX_DISTANCE_TO_SUN = 300f;
-    float relativeDistanceToSun;
-
-    private void Awake()
-    {
-        if (generateOnAwake) GeneratePlanet();
-    }
+    [Range(0f, 1f)]
+    public float relativeDistanceToSun = .5f;
 
     private void Update() 
     {
         transform.Rotate(new Vector3(0, degreesPerSecond, 0) * Time.deltaTime);
     }
 
-    public void GeneratePlanet()
+    public void GeneratePlanet(float relativeDistanceToSun)
     {
-        relativeDistanceToSun = 150f / MAX_DISTANCE_TO_SUN; // TODO: calculer
+        this.relativeDistanceToSun = relativeDistanceToSun;
 
         Initialise();
         GenerateMesh();
